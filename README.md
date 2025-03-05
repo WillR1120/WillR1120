@@ -1,4 +1,4 @@
-<h1>Hi, I'm Will! <br/><a href="https://www.linkedin.com/in/william-rodgers-842081327/">Computer Science Student at University of North Carolina at Charlotte</a>
+<h1>Hi, I'm Will! <br/>
 
 <h2>👨‍💻 Cyber Security Projects:</h2>
 
