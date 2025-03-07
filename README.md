@@ -2,8 +2,8 @@
 
 <h2>👨‍💻 Cyber Security Projects:</h2>
 
-- <b>Data Structures and Algorithms Practice (AlgoExpert)</b>
-  - [Praciting DS & Algos in Python](https://github.com/joshmadakor1/Algorithms-Practice)
+- <b>Port Scanner</b>
+  - [Praciting Port Scanners in Python](https://github.com/WillR1120/WillR1120/blob/main/Port%20Scanner)
 
 <h2>👨‍💻 Certications:</h2>
   
