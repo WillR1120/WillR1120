@@ -3,7 +3,7 @@
 <h2>👨‍💻 Projects:</h2>
 
 - <b>University Database</b>
-  - [Database in Java](https://github.com/WillR1120/WillR1120/blob/main/Port%20Scanner)
+  - [Database in Java](https://github.com/WillR1120/WillR1120/blob/main/University%20Database%20Code)
 
   
 
