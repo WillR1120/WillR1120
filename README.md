@@ -3,7 +3,7 @@
 <h2>👨‍💻 Projects:</h2>
 
 - <b>Godot Game</b>
-  - [Database in Java](https://github.com/WillR1120/WillR1120/blob/main/University%20Database%20Code)
+  - [AI Enemies](https://github.com/WillR1120/WillR1120/blob/main/Godot%20Game%20AI%20Enemy%20Code)
 - <b>Music Database</b>
   - [Database in Java](https://github.com/WillR1120/WillR1120/blob/main/University%20Database%20Code)
 - <b>Portfolio Website</b>
