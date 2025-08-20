@@ -2,11 +2,17 @@
 
 <h2>👨‍💻 Projects:</h2>
 
+- <b>Godot Game</b>
+  - [Database in Java](https://github.com/WillR1120/WillR1120/blob/main/University%20Database%20Code)
+- <b>Music Database</b>
+  - [Database in Java](https://github.com/WillR1120/WillR1120/blob/main/University%20Database%20Code)
+- <b>Portfolio Website</b>
+  - [Database in Java](https://github.com/WillR1120/WillR1120/blob/main/University%20Database%20Code)
 - <b>University Database</b>
   - [Database in Java](https://github.com/WillR1120/WillR1120/blob/main/University%20Database%20Code)
-
-  
-
+- <b>Python project tbd</b>
+  - [Database in Java](https://github.com/WillR1120/WillR1120/blob/main/University%20Database%20Code)
+    
 <h2> 🤳 Connect with me:</h2>
 
 
