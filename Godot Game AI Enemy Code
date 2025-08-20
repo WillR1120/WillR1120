@@ -1,0 +1,204 @@
+extends CharacterBody2D
+
+var enemy_bullet = preload("res://Scenes/Act 1/Enemy Scenes/Act 1_enemy_bullet.tscn")
+var ceiling_bullet = preload("res://Scenes/Act 1/Enemy Scenes/Act 1_enemy_bullet_ceiling.tscn")
+
+@onready var animated_sprite_2d: AnimatedSprite2D = $AnimatedSprite2D
+@onready var hurt_box: CollisionShape2D = $hurtbox/CollisionShape2D
+@onready var collision_shape_2d: CollisionShape2D = $CollisionShape2D
+@onready var hit_flash: AnimationPlayer = $hit_flash
+@onready var shooting_timer: Timer = $shootingTimer
+@onready var show_shot: Timer = $Show_shot
+@onready var muzzle: Marker2D = $Muzzle
+@onready var string_1: CharacterBody2D = $"String 1"
+@onready var string_2: CharacterBody2D = $"String 2"
+@onready var ceiling_muzzle: Marker2D = $Ceiling_muzzle
+@onready var stage_curtains: AnimatedSprite2D = $"../Stage/Stage curtains"
+
+
+
+
+enum State { Idle, Run, Jump, Falling, Shoot, Stage_1, Block, Death, Loading }
+
+const E_SPEED = 1500
+
+var GRAVITY = 1000
+var current_state
+var health_amount = 100
+var is_dead = false
+var is_shooting = false
+var is_blocking = false
+var muzzle_position
+var time_in_air = 0 
+var ceiling_muzzle_position
+var ceiling_shots_timer = 0
+
+
+
+
+
+
+func _ready():
+	current_state = State.Idle
+	animated_sprite_2d.connect("animation_finished", Callable(self, "_on_animation_finished"))
+	start_shooting_timer()
+	muzzle_position = muzzle.position
+	ceiling_muzzle_position = ceiling_muzzle.position
+
+
+func _physics_process(delta):
+	if not is_dead:
+		enemy_animations()
+		enemy_gravity(delta)
+		enemy_idle(delta)
+		enemy_death(delta)
+		stage1_behavior(delta)
+		
+		
+		#print("State: ", State.keys()[current_state])
+		#print()
+		move_and_slide()
+
+
+
+func enemy_gravity(delta):
+	velocity.y += GRAVITY * delta
+
+func enemy_idle(delta):
+	if not is_shooting and current_state != State.Shoot and current_state != State.Stage_1:
+		velocity.x = move_toward(velocity.x, 0, E_SPEED * delta)
+		current_state = State.Idle
+
+func enemy_shooting():
+	if not is_shooting and current_state != State.Stage_1:
+		animated_sprite_2d.play("normal_shot")
+		current_state = State.Shoot
+		show_shot.wait_time = .3
+		show_shot.start()
+		is_shooting = true
+
+
+func start_shooting_timer():
+	if not is_dead and current_state != State.Death and current_state != State.Stage_1 and is_on_floor():
+		var random_interval = randf() * 2.5 + .5
+		shooting_timer.wait_time = random_interval
+		shooting_timer.start()
+
+
+func _on_animation_finished():
+	if current_state == State.Shoot:
+		is_shooting = false
+		current_state = State.Idle
+	elif current_state == State.Block:
+		is_blocking = false
+		current_state = State.Idle
+
+
+
+func stage1_behavior(delta):
+	if health_amount < 70 and health_amount > 60:
+		if self.global_position.y > -125 and time_in_air != -2:
+			current_state = State.Stage_1
+			time_in_air += 1
+			GRAVITY = 100
+			self.velocity.y = -90
+			if time_in_air > 100:
+				time_in_air = -2
+				GRAVITY = 1000
+				if self.global_position.y < 0:
+					current_state = State.Idle
+					self.velocity.y = 0
+		if self.global_position.y < -100:
+			ceiling_shots_timer += 1
+			if ceiling_shots_timer > 20:
+				ceiling_bullets()
+				ceiling_shots_timer = 0
+	if health_amount < 35 and health_amount > 25:
+		if self.global_position.y > -125 and time_in_air != -1:
+			current_state = State.Stage_1
+			time_in_air -= 1
+			GRAVITY = 100
+			self.velocity.y = -90
+			if time_in_air < -100:
+				time_in_air = -1
+				GRAVITY = 1000
+				if self.global_position.y <= 10:
+					current_state = State.Idle
+					self.velocity.y = 0
+		if self.global_position.y < -100:
+			ceiling_shots_timer += 1
+			if ceiling_shots_timer > 15:
+				ceiling_bullets()
+				ceiling_shots_timer = 0
+	if health_amount < 15 and health_amount > 10:
+		if self.global_position.y > -125 and time_in_air != -2:
+			current_state = State.Stage_1
+			time_in_air += 1
+			GRAVITY = 100
+			self.velocity.y = -90
+			if time_in_air > 100:
+				time_in_air = -2
+				GRAVITY = 1000
+				if self.global_position.y < 10:
+					current_state = State.Idle
+					self.velocity.y = 0
+		if self.global_position.y < -100:
+			ceiling_shots_timer += 1
+			if ceiling_shots_timer > 10:
+				ceiling_bullets()
+				ceiling_shots_timer = 0
+
+
+func ceiling_bullets():
+	if current_state == State.Stage_1:
+		var ceiling_bullet_instance = ceiling_bullet.instantiate() as Node2D
+		var random_position = randf() * 257
+		ceiling_bullet_instance.global_position.x = -300 + random_position
+		ceiling_bullet_instance.global_position.y = -200 
+		get_parent().add_child(ceiling_bullet_instance)
+
+
+
+func enemy_death(delta):
+	if health_amount <= 0:
+		current_state = State.Death
+		string_1.global_position.y = -300
+		string_2.global_position.y = -300
+		collision_shape_2d.scale.y = 0.1
+		collision_shape_2d.position.y = -2
+		hurt_box.position.y = 1000
+
+func _on_hurtbox_area_entered(area: Area2D):
+	if area.get_parent().has_method("get_damage_amount"):
+		var node = area.get_parent() as Node
+		health_amount -= node.damage_amount
+		hit_flash.play("hit")
+	#print("Health amount:", health_amount)
+
+func _on_animated_sprite_2d_animation_finished():
+	if current_state == State.Death:
+		is_dead = true
+		stage_curtains.play("close")
+
+#func dead(delta):
+	#if is_dead:
+		#queue_free()
+
+func enemy_animations():
+	if current_state == State.Idle and not is_shooting:
+		animated_sprite_2d.play("idle")
+	elif current_state == State.Stage_1:
+		animated_sprite_2d.play("floating_attack")
+	elif current_state == State.Death:
+		animated_sprite_2d.play("death")
+
+func _on_shooting_timer_timeout():
+	if not is_dead and current_state != State.Death and current_state != State.Stage_1:
+		enemy_shooting()
+		start_shooting_timer()
+
+
+func _on_show_shot_timeout():
+	var bullet_instance = enemy_bullet.instantiate() as Node2D
+	bullet_instance.global_position = muzzle.global_position
+	get_parent().add_child(bullet_instance)
