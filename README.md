@@ -1,11 +1,10 @@
 <h1>Hi, I'm Will! <br/>
 
-<h2>👨‍💻 Cyber Security Projects:</h2>
+<h2>👨‍💻 Projects:</h2>
 
 - <b>University Database</b>
-  - [Praciting Port Scanners in Python](https://github.com/WillR1120/WillR1120/blob/main/Port%20Scanner)
+  - [Database in Java](https://github.com/WillR1120/WillR1120/blob/main/Port%20Scanner)
 
-<h2>👨‍💻 Certications:</h2>
   
 
 <h2> 🤳 Connect with me:</h2>
