@@ -1,1 +1,392 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>William Rodgers Portfolio</title>
+<!-- Google Fonts -->
+<link href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;500;700&family=Montserrat:wght@600&display=swap" rel="stylesheet">
+<style>
+  body, html {
+    margin: 0;
+    padding: 0;
+    font-family: 'Roboto', Arial, sans-serif;
+    background-color: #000;
+    color: #fff;
+  }
+  a { text-decoration: none; color: inherit; }
 
+  /* Hero Section */
+  .hero {
+    height: 80vh;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    text-align: center;
+    background: linear-gradient(-45deg, #111, #222, #333, #111);
+    background-size: 400% 400%;
+    animation: gradientBG 15s ease infinite;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  }
+  @keyframes gradientBG {
+    0%   { background-position: 0% 50%; }
+    25%  { background-position: 100% 50%; }
+    50%  { background-position: 50% 50%; }
+    75%  { background-position: 0% 50%; }
+    100% { background-position: 0% 50%; }
+  }
+  .hero img {
+    width: 150px;
+    height: auto;
+    aspect-ratio: 1 / 1;
+    border-radius: 50%;
+    object-fit: cover;
+    margin-bottom: 20px;
+    box-shadow: 0 4px 12px rgba(0,0,0,0.5);
+    border: 3px solid #fff;
+    transition: transform 0.3s ease;
+  }
+  .hero img:hover { transform: scale(1.05); }
+  .hero h1 { 
+    font-size: 60px; 
+    margin: 0; 
+    font-weight: 700; 
+    color: #fff; 
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 1px;
+  }
+  .hero p { font-size: 20px; margin-top: 10px; font-weight: 400; color: #ccc; letter-spacing: 0.5px; }
+
+  /* Navigation */
+  nav { 
+    display: flex; 
+    justify-content: center; 
+    background: #111; 
+    position: sticky;
+    top: 0;
+    z-index: 100;
+  }
+  nav ul { list-style: none; display: flex; margin: 0; padding: 0; }
+  nav li { position: relative; margin: 0 20px; }
+  nav a {
+    display: block;
+    padding: 15px 10px;
+    color: #fff;
+    font-weight: 500;
+    transition: background 0.3s, color 0.3s;
+  }
+  nav a:hover { 
+    background: #222;  
+    color: #ddd;       
+    border-radius: 5px; 
+  }
+
+  /* Sections */
+  section { 
+    width: 100%;          
+    margin: 0;            
+    overflow: hidden; 
+    max-height: 0; 
+    opacity: 0; 
+    transition: max-height 0.6s ease, opacity 0.6s ease, transform 0.6s ease;
+    background: linear-gradient(to bottom, #111, #000);
+    text-align: center; 
+    transform: translateY(30px);
+  }
+  section.active { max-height: 2500px; opacity: 1; transform: translateY(0); }
+
+  .container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 60px 20px;
+  }
+
+  section h2 {
+    color: #fff;
+    font-size: 36px;
+    margin-bottom: 30px;
+    font-weight: 700;
+    font-family: 'Montserrat', sans-serif;
+    letter-spacing: 1px;
+    text-shadow: 0 2px 6px rgba(0,0,0,0.3);
+  }
+  section p {
+    font-size: 18px;
+    line-height: 2;
+    color: #ccc;
+  }
+  ul {
+    color: #ccc;
+    line-height: 2;
+    margin-left: 0;
+    padding-left: 0;
+    list-style-position: inside;
+  }
+
+  /* Cards & Dropdowns */
+  .card {
+    background: #1a1a1a;
+    padding: 22px;
+    margin: 15px auto 0 auto;
+    border-radius: 12px;
+    max-width: 650px;
+    box-shadow: 0 4px 10px rgba(255,255,255,0.08);
+    transition: transform 0.3s ease, box-shadow 0.3s ease, background 0.3s ease;
+    color: #fff;
+    font-weight: 500;
+    text-align: center; 
+    cursor: pointer;
+    font-size: 18px;
+  }
+  .card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 8px 20px rgba(255,255,255,0.1);
+    background: linear-gradient(135deg, #222, #333);
+  }
+
+  .dropdown-content {
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.3s ease, opacity 0.3s ease;
+    background: #1f1f1f;
+    margin: 5px auto 12px auto;
+    padding: 12px 20px;
+    border-radius: 10px;
+    text-align: left;
+    opacity: 0;
+  }
+  .dropdown-content.show { opacity: 1; }
+  .dropdown-content p, .dropdown-content ul {
+    color: #ccc;
+    font-size: 16px;
+    line-height: 1.6;
+    margin: 8px 0;
+    padding-left: 0;
+  }
+  .dropdown-content li { margin-bottom: 6px; }
+  .dropdown-content strong { color: #fff; }
+
+  /* Project Section Styling */
+  .project-section {
+    margin: 12px 0;
+    padding: 10px 12px;
+    background: #1a1a1a;
+    border-radius: 8px;
+    transition: transform 0.3s ease, box-shadow 0.3s ease;
+  }
+  .project-section:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 16px rgba(255,255,255,0.08);
+  }
+  .project-section p { margin: 6px 0 0 0; color: #ccc; line-height: 1.6; }
+  .project-img {
+    width: 100%;
+    max-height: 300px;
+    object-fit: cover;
+    border-radius: 8px;
+    margin-top: 6px;
+    transition: transform 0.3s ease, filter 0.3s ease;
+  }
+  .project-img:hover { transform: scale(1.03); filter: brightness(1.05); }
+
+  /* --- NEW for Music Database gallery --- */
+  .project-gallery {
+    display: flex;
+    gap: 12px;
+    flex-wrap: wrap;
+    margin-top: 8px;
+  }
+  .project-gallery .project-img {
+    flex: 1 1 calc(33.333% - 12px);
+    max-height: 200px;
+    object-fit: cover;
+  }
+
+  .code-snippet {
+    background: #000;
+    color: #0f0;
+    font-family: monospace;
+    padding: 10px;
+    border-radius: 6px;
+    overflow-x: auto;
+    margin-top: 8px;
+  }
+
+  .video-demo {
+    margin-top: 10px;
+    width: 100%;
+    border-radius: 8px;
+    overflow: hidden;
+  }
+
+  @media(max-width:768px) {
+    .hero h1 { font-size: 40px; }
+    .hero p { font-size: 16px; }
+    nav ul { flex-direction: column; }
+    nav li { margin: 5px 0; }
+    .card { width: 90%; }
+    .project-gallery .project-img { flex: 1 1 100%; } /* stack on small screens */
+  }
+</style>
+</head>
+<body>
+
+<div class="hero">
+  <img src="images/profile.png" alt="Profile Picture">
+  <h1>William Rodgers</h1>
+  <p>Computer Science Student | AI, ML & Game Development</p>
+</div>
+
+<nav>
+  <ul>
+    <li><a href="#about" onclick="showSection(event, 'about')">About Me</a></li>
+    <li><a href="#skills" onclick="showSection(event, 'skills')">Skills</a></li>
+    <li><a href="#projects" onclick="showSection(event, 'projects')">Projects</a></li>
+    <li><a href="#contact" onclick="showSection(event, 'contact')">Contact</a></li>
+  </ul>
+</nav>
+
+<section id="about">
+  <div class="container">
+    <h2>About Me</h2>
+    <p>Hello! I’m a Computer Science student concentrating in AI, ML, and Game Development. I enjoy designing intelligent systems and immersive interactive experiences.</p>
+    <ul>
+      <li>Proficient in multiple computer languages</li>
+      <li>Developed projects combining AI techniques with interactive applications</li>
+      <li>Eager to contribute to real-world projects and collaborative teams</li>
+    </ul>
+    <p>I aim to grow as an AI engineer by applying my skills in innovative projects and internships.</p>
+  </div>
+</section>
+
+<section id="skills">
+  <div class="container">
+    <h2>Skills</h2>
+    <div class="card" onclick="toggleDropdown(this)">SQL / Java</div>
+    <div class="dropdown-content">
+      <ul>
+        <li><strong>SQL</strong> – Made a large database for top 100 songs and used queries to sort songs, artists, and genres</li>
+        <li><strong>Java</strong> – Made a small database for universities to keep track of students, classes, and faculty</li>
+      </ul>
+    </div>
+    <div class="card" onclick="toggleDropdown(this)">HTML / CSS / JavaScript</div>
+    <div class="dropdown-content">
+      <ul>
+        <li><strong>HTML</strong> – Built the structure for this portfolio site.</li>
+        <li><strong>CSS</strong> – Built the style and theme for this portfolio site.</li>
+        <li><strong>JavaScript</strong> – Implemented interactive section toggling and dropdowns.</li>
+      </ul>
+    </div>
+    <div class="card" onclick="toggleDropdown(this)">Python / GDScript</div>
+    <div class="dropdown-content">
+      <ul>
+        <li><strong>Python</strong> – High knowledge of python programming covering core concepts, object-oriented programming, and data analysis with libraries like pandas and matplotlib..</li>
+        <li><strong>GDScript</strong> – Created small games in Godot with AI-controlled enemies.</li>
+      </ul>
+    </div>
+  </div>
+</section>
+
+<section id="projects">
+  <div class="container">
+    <h2>Projects</h2>
+
+    <!-- Project 1: Godot Game -->
+    <div class="card" onclick="toggleDropdown(this)">Godot Game</div>
+    <div class="dropdown-content">
+      <div class="project-section"><strong>What it does:</strong><p>2D platformer where the player puppet battles other puppets on a stage.</p></div>
+      <div class="project-section"><strong>What's going on:</strong><p>AI enemies adapt to the player's actions and game information.</p></div>
+      <div class="project-section"><strong>Tools & Skills:</strong><p>Godot, GDScript, AI Pathfinding / Behaviors, State Machines, Physics and Collisions</p></div>
+      <div class="project-section"><strong>GitHub:</strong><a href="https://github.com/WillR1120/WillR1120/blob/main/Godot%20Game%20AI%20Enemy%20Code" target="_blank" style="color:#0af;"> View Code on GitHub</a></div>
+      <div class="project-section"><strong>Video Demo:</strong><video class="video-demo" controls><source src="images/wizard puppet (DEBUG) 2025-08-22 19-07-19.mp4" type="video/mp4"></video></div>
+    </div>
+
+  <!-- Project 2: Music Database App -->
+<div class="card" onclick="toggleDropdown(this)">Music Database</div>
+<div class="dropdown-content">
+  <div class="project-section">
+    <strong>What it does:</strong>
+    <p>Sorts top 100 songs by artist, genre, and popularity.</p>
+  </div>
+  <div class="project-section">
+    <strong>What's going on:</strong>
+    <p>SQL backend for database queries and UI.</p>
+  </div>
+  <div class="project-section">
+    <strong>Tools & Skills:</strong>
+    <p>SQL</p>
+  </div>
+  <div class="project-section">
+    <strong>Pictures:</strong>
+    <div class="project-gallery">
+      <img src="images/Capture m.PNG" class="project-img">
+      <img src="images/Capture.PNG" class="project-img">
+      <img src="images/Capture 2.PNG" class="project-img">
+    </div>
+  </div>
+</div>
+
+
+    <!-- Project 3: Portfolio Website -->
+    <div class="card" onclick="toggleDropdown(this)">Portfolio Website</div>
+    <div class="dropdown-content">
+      <div class="project-section"><strong>What it does:</strong><p>Showcases my skills, projects, and contact info.</p></div>
+      <div class="project-section"><strong>What's going on:</strong><p>HTML for Interactive sections, CSS for style, and JavaScript for interactions.</p></div>
+      <div class="project-section"><strong>Tools & Skills:</strong><p>HTML, CSS, JavaScript</p></div>
+      <div class="project-section"><strong>GitHub:</strong><a href="#" target="_blank" style="color:#0af;">View Code on GitHub</a></div>
+    </div>
+
+    <!-- Project 4: University Database -->
+    <div class="card" onclick="toggleDropdown(this)">University Database</div>
+    <div class="dropdown-content">
+      <div class="project-section"><strong>What it does:</strong><p>Manages information for students and faculty in a university setting.</p></div>
+      <div class="project-section"><strong>What's going on:</strong><p>Backend is built in Java, using object-oriented design.</p></div>
+      <div class="project-section"><strong>Tools & Skills:</strong><p>Java, Object-Oriented Programming, Database Design, Inheritance</p></div>
+      <div class="project-section"><strong>GitHub:</strong><a href="https://github.com/WillR1120/WillR1120/blob/main/University%20Database%20Code" target="_blank" style="color:#0af;"> View Code on GitHub</a></div>
+    </div>
+
+    
+
+  </div>
+</section>
+
+
+
+<section id="contact">
+  <div class="container">
+    <h2>Contact</h2>
+    <p>If you’d like to get in touch, please reach me via email or LinkedIn:</p>
+    <div style="margin-top: 25px;">
+      <p><strong>Email:</strong> <a href="mailto:willrodgers2033@gmail.com" style="color:#ccc;">willrodgers2033@gmail.com</a></p>
+      <p><strong>LinkedIn:</strong> <a href="https://www.linkedin.com/in/william-rodgers-842081327/" target="_blank" style="color:#ccc;">linkedin.com/in/williamrodgers</a></p>
+      <p><strong>GitHub:</strong> <a href="https://github.com/WillR1120" style="color:#ccc;">github.com/WillR1120</a></p>
+    </div>
+  </div>
+</section>
+
+<script>
+function showSection(event, sectionId) {
+  event.preventDefault();
+  document.querySelectorAll('section').forEach(sec => sec.classList.remove('active'));
+  const section = document.getElementById(sectionId);
+  section.classList.add('active');
+  section.scrollIntoView({behavior: 'smooth'});
+}
+
+function toggleDropdown(card) {
+  const content = card.nextElementSibling;
+  const isOpen = content.style.maxHeight && content.style.maxHeight !== "0px";
+  document.querySelectorAll('.dropdown-content').forEach(dc => {
+    dc.style.maxHeight = "0";
+    dc.classList.remove('show');
+  });
+  if (!isOpen) {
+    content.style.maxHeight = content.scrollHeight + "px";
+    content.classList.add('show');
+  }
+}
+</script>
+
+</body>
+</html>
